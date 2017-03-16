@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/daviddengcn/go-colortext"
 )
@@ -23,18 +24,18 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err == nil {
 		ct.ChangeColor(ct.White, true, ct.Black, false)
-		fmt.Printf("BODY   : ")
+		fmt.Print("\nBODY   : ")
 		ct.ChangeColor(ct.White, true, ct.Yellow, false)
-		fmt.Printf("%s\n", string(body))
+		fmt.Printf("%s", string(body))
 	}
 }
 
 func requestHandler(w http.ResponseWriter, r *http.Request) {
-	defer ct.ChangeColor(ct.White, false, ct.Black, false)
 	ct.ChangeColor(ct.White, true, ct.Black, false)
+	fmt.Println("TIME   : " + time.Now().Format("2006-01-02 15:04:05.999999999"))
 	fmt.Printf("REQUEST: ")
 	ct.ChangeColor(ct.White, true, ct.Green, false)
-	fmt.Printf("%s %s\n", r.Method, r.URL.Path)
+	fmt.Printf("%s %s", r.Method, r.URL.Path)
 	switch r.Method {
 	case "GET":
 		handleGet(w, r)
@@ -44,6 +45,7 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 		ct.ChangeColor(ct.Red, true, ct.Black, false)
 		fmt.Println("Unhandled")
 	}
+	ct.ChangeColor(ct.White, false, ct.Black, false)
 	fmt.Print("\n\n")
 }
 
